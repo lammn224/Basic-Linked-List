@@ -14,6 +14,7 @@ Node *Create(int value)
 	temp->value = value;
 	return temp;
 }
+
 //Thêm Node vào danh sách liên kết
 //Thêm vào đầu
 Node *AddHead(Node *head, int value)
@@ -30,6 +31,7 @@ Node *AddHead(Node *head, int value)
 	}
 	return head;
 }
+
 //Thêm vào cuối
 Node *AddTail(Node *head, int value)
 {
@@ -50,10 +52,11 @@ Node *AddTail(Node *head, int value)
 	}
 	return head;
 }
+
 //Thêm vào vị trí bất kỳ
 //Chỉ số chèn bắt đầu từ chỉ số 0
 Node *AddAtPos(Node *head, int value, int pos)
-{	
+{
 	if (pos == 0 || head == NULL)
 	{
 		AddHead(head, value);
@@ -69,8 +72,8 @@ Node *AddAtPos(Node *head, int value, int pos)
 		}
 		if (i != pos)
 		{
-			/*Nếu duyệt hết danh sách lk rồi 
-			mà vẫn chưa đến vị trí cần chèn, 
+			/*Nếu duyệt hết danh sách lk rồi
+			mà vẫn chưa đến vị trí cần chèn,
 			ta sẽ mặc định chèn cuối */
 			head = AddTail(head, value);
 		}
@@ -93,12 +96,13 @@ Node *DelHead(Node *head)
 	{
 		cout << "Linked list is empty";
 	}
-	else 
+	else
 	{
 		head = head->next;
 	}
 	return head;
 }
+
 //Xóa cuối
 Node *DelTail(Node *head)
 {
@@ -118,6 +122,7 @@ Node *DelTail(Node *head)
 	}
 	return head;
 }
+
 //Xóa ở vị trí bất kỳ
 Node *DelAtPos(Node *head, int pos)
 {
@@ -138,58 +143,7 @@ Node *DelAtPos(Node *head, int pos)
 	return head;
 }
 
-Node* insert(Node* head, int value)
-{
-	Node* p = head;
-	Node* pre = head;
-	Node* temp = new Node;
-	temp->value = value;
-	bool check = true;
-	//cout << head->value << " " << head->next->value << endl;
-	if (head->value > head->next->value)
-	{
-		for (; p != NULL; p = p->next)
-		{
-			if (value > p->value)
-			{
-				if (p == head)			//neu p la head <-> gan luon vao head
-				{
-					temp->next = head;
-					head = temp;		//doi lai head la temp
-					check = false;		// update check
-				}
-				break;
-			}
-			pre = p;
-		}
-		if (check) {			//neu check == false thi ko chay vao TH nay vi da gan vao head
-			temp->next = p;
-			pre->next = temp;
-		}
-	}
-	else
-	{
-		for (; p != NULL; p = p->next)
-		{
-			if (value < p->value)
-			{
-				if (p == head)
-				{
-					temp->next = head;
-					head = temp;
-					check = false;
-				}
-				break;
-			}
-			pre = p;
-		}
-		if (check) {
-			temp->next = p;
-			pre->next = temp;
-		}
-	}
-	return head;
-}
+//Xóa phần tử lặp
 Node* deleteDuplicates(Node* head)
 {
 	for (Node* p = head; p != NULL; p = p->next)
@@ -208,6 +162,63 @@ Node* deleteDuplicates(Node* head)
 	return head;
 }
 
+//chèn tăng giảm
+Node* insert(Node* head, int value)
+{
+	Node* p = head;
+	Node* pre = head;
+	Node* temp = new Node;
+	temp->value = value;
+	temp->next = NULL;
+	bool check = true;
+	if (head == NULL)
+		head = temp;
+	else if (head->next == NULL) {
+		if (head->value < value) {
+			head->next = temp;
+		}
+		else {
+			temp->next = head;
+			head = temp;
+		}
+	}
+	else if (head->value > head->next->value) {
+		for (; p != NULL; p = p->next) {
+			if (value > p->value) {
+				if (p == head) {		//neu p la head <-> gan luon vao head
+					temp->next = head;
+					head = temp;		//doi lai head la temp
+					check = false;		// update check
+				}
+				break;
+			}
+			pre = p;
+		}
+		if (check) {			//neu check == false thi ko chay vao TH nay vi da gan vao head
+			temp->next = p;
+			pre->next = temp;
+		}
+	}
+	else {
+		for (; p != NULL; p = p->next) {
+			if (value < p->value) {
+				if (p == head) {
+					temp->next = head;
+					head = temp;
+					check = false;
+				}
+				break;
+			}
+			pre = p;
+		}
+		if (check) {
+			temp->next = p;
+			pre->next = temp;
+		}
+	}
+	return head;
+}
+
 Node *initHead()
 {
 	Node *head;
@@ -215,6 +226,7 @@ Node *initHead()
 	return head;
 }
 
+//input
 Node *Nhap()
 {
 	Node *head = initHead();
@@ -230,6 +242,18 @@ Node *Nhap()
 	return head;
 }
 
+//output
+void xuat(Node *head)
+{
+	if (head == NULL) return;
+	for (Node *p = head; p != NULL; p = p->next)
+	{
+		cout << p->value << " ";
+	}
+	cout << endl;
+}
+
+//lấy độ dài linked list
 int Length(Node *head) {
 	int length = 0;
 	for (Node *p = head; p != NULL; p = p->next) {
@@ -238,54 +262,56 @@ int Length(Node *head) {
 	return length;
 }
 
-void xuat(Node *head)
-{
-	for (Node *p = head; p != NULL; p = p->next)
-	{
-		cout << p->value << " ";
-	}
-	cout << endl;
-}
 int main()
 {
+	//init linked list
 	cout << "khoi tao 1 danh sach lien ket" << endl;
 	Node *head = Nhap();
 	cout << "Danh sach vua khoi tao la: " << endl;
 	xuat(head);
 
-	//cout << "them mot phan tu" << endl;
+	cout << "them mot phan tu" << endl;
+	// add head
+	cout << "Nhap mot phan tu can them vao dau danh sach" << endl << "x = ";
+	int x;
+	cin >> x;
+	head = AddHead(head, x);
+	cout << "linked list sau khi them vao dau la: " << endl;
+	xuat(head);
 
-	//cout << "Nhap mot phan tu can them vao dau danh sach" << endl << "x = ";
-	//int x;
-	//cin >> x;
-	//head = AddHead(head, x);
-	//cout << "linked list sau khi them la: " << endl;
-	//xuat(head);
+	//add tail
+	cout << "Nhap mot phan tu can them vao cuoi danh sach" << endl << "x = ";
+	cin >> x;
+	head = AddTail(head, x);
+	cout << "linked list sau khi them vao cuoi la: " << endl;
+	xuat(head);
 
-	//cout << "Nhap mot phan tu can them vao cuoi danh sach" << endl << "x = ";
-	//cin >> x;
-	//head = AddTail(head, x);
-	//cout << "linked list sau khi them la: " << endl;
-	//xuat(head);
+	// delete head
+	cout << "Xoa mot phan tu o dau danh sach " << endl;
+	head = DelHead(head);
+	// delete tail
+	cout << "Xoa mot phan tu o cuoi danh sach " << endl;
+	head = DelTail(head);
 
-	//cout << "Xoa mot phan tu o dau danh sach " << endl;
-	//head = DelHead(head);
-	//cout << "Xoa mot phan tu o cuoi danh sach " << endl;
-	//head = DelTail(head);
+	cout << "linked list sau khi xoa la: " << endl;
+	xuat(head);
 
-	//cout << "linked list sau khi xoa la: " << endl;
-	//xuat(head);
-
-	//cout << "chen them mot node vao vi tri bat ki" << endl;
-	////head = AddAtPos(head, 45, 3);
-	//xuat(head);
-	//cout << "head+1 : " << head->next->value << endl;
-	//xuat(head);
+	//chèn bất kỳ
+	cout << "chen them mot node vao vi tri bat ki" << endl;
+	cout << "Nhap x = ";
+	cin >> x;
+	head = AddAtPos(head, x, 3);
+	xuat(head);
 	cout << "do dai linked list la: " << Length(head) << endl;
 
-	//head = deleteDuplicates(head);
+	cout << "xoa phan tu trung nhau" << endl;
+	head = deleteDuplicates(head);
+	xuat(head);
+
+	cout << "chen tan giam voi linked list da sap xep tang / giam" << endl;
 	head = insert(head, 4);
 	xuat(head);
+
 	cout << "do dai linked list la: " << Length(head) << endl;
 
 
