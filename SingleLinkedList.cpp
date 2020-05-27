@@ -54,16 +54,15 @@ Node *AddTail(Node *head, int value)
 }
 
 //Thêm vào vị trí bất kỳ
-//Chỉ số chèn bắt đầu từ chỉ số 0
 Node *AddAtPos(Node *head, int value, int pos)
 {
-	if (pos == 0 || head == NULL)
+	if (pos == 1 || head == NULL)
 	{
 		AddHead(head, value);
 	}
 	else
 	{
-		int i = 1;
+		int i = 2;
 		Node *p = head;
 		while (p != NULL && i != pos)
 		{
@@ -126,17 +125,18 @@ Node *DelTail(Node *head)
 //Xóa ở vị trí bất kỳ
 Node *DelAtPos(Node *head, int pos)
 {
-	if (pos == 0)
+	if (pos == 1)
 	{
 		head = DelHead(head);
 	}
 	else
 	{
+		int k = 2;
 		Node *p = head;
-		int k = 1;
 		while (p->next->next != NULL && k != pos)
 		{
 			p = p->next;
+			k++;
 		}
 		p->next = p->next->next;
 	}
@@ -286,22 +286,31 @@ int main()
 	cout << "linked list sau khi them vao cuoi la: " << endl;
 	xuat(head);
 
+	// add at pos
+	int vl;
+	int idx;
+	cout << "Nhap gia tri phan tu can them" << endl;
+	cin >> vl;
+	cout << "Nhap vi tri can them" << endl;
+	cin >> idx;
+	head = AddAtPos(head, vl, idx);
+	xuat(head);
+
 	// delete head
 	cout << "Xoa mot phan tu o dau danh sach " << endl;
 	head = DelHead(head);
 	// delete tail
 	cout << "Xoa mot phan tu o cuoi danh sach " << endl;
 	head = DelTail(head);
+	xuat(head);
+	// xóa bất kỳ
+	cout << "Xoa phan tu tai vi tri bat ky" << endl << "Nhap vi tri can xoa" << endl;
+	int k; cin >> k;
+	head = DelAtPos(head, k);
 
 	cout << "linked list sau khi xoa la: " << endl;
 	xuat(head);
 
-	//chèn bất kỳ
-	cout << "chen them mot node vao vi tri bat ki" << endl;
-	cout << "Nhap x = ";
-	cin >> x;
-	head = AddAtPos(head, x, 3);
-	xuat(head);
 	cout << "do dai linked list la: " << Length(head) << endl;
 
 	cout << "xoa phan tu trung nhau" << endl;
