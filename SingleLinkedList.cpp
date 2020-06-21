@@ -242,6 +242,19 @@ Node *Nhap()
 	return head;
 }
 
+Node* reverse(Node* head) {
+	Node* last = NULL;
+	Node* cur = NULL;
+	while (head != NULL) {
+		cur = new Node;
+		cur->value = head->value;
+		cur->next = last;
+		last = cur;
+		head = head->next;
+	}
+	return cur;
+}
+
 //output
 void xuat(Node *head)
 {
@@ -323,6 +336,9 @@ int main()
 
 	cout << "do dai linked list la: " << Length(head) << endl;
 
+	cout << "Dao nguoc linked list" << endl;
+	Node* rev = reverse(head);
+	xuat(rev);
 
 	return 0;
 }
